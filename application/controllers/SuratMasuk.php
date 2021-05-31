@@ -117,7 +117,8 @@ class SuratMasuk extends CI_Controller {
 			'tgl_disposisi' => date('Y-m-d'),
 			'id_suratmasuk' => $this->input->post('f_id_suratmasuk',TRUE),
 			'id_bagian'     => $this->input->post('f_bagian',TRUE),
-			'perintah'      => $this->input->post('f_perintah',TRUE)
+			'perintah'      => $this->input->post('f_perintah',TRUE),
+			'tindakan'      => 0
 		);
 
 		$data_update = array(

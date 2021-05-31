@@ -49,8 +49,8 @@ class M_suratMasuk extends CI_Model {
     // update data
     function update_disposisi($id, $data)
     {
-        $this->db->where('id_disposisi', $id);
-        $this->db->update('disposisi', $data);
+        $this->db->where('id_suratmasuk', $id);
+        $this->db->update('suratmasuk', $data);
     }
 	
 	// update data
