@@ -23,12 +23,45 @@ class SuratKeluar extends CI_Controller {
 	}
 	
 	public function index(){
+
+		if (@$this->input->post('tgl',TRUE)==null) {
+			$date1 = date('Y-m-d');
+			$date2 = date('Y-m-d');
+		}else {
+			$range_date = $this->input->post('tgl',TRUE);
+			
+			$string = explode(' - ',$range_date);
+
+			$date11 = explode('/',$string[0]);
+			$date22 = explode('/',$string[1]);
+
+			$date1 = $date11[2].'-'.$date11[1].'-'.$date11[0];
+			$date2 = $date22[2].'-'.$date22[1].'-'.$date22[0];
+		}
+		$dash_date = null;
+		if ($date1 == $date2) {
+			$phpdate = strtotime( $date1 );
+			$dash_date = date( 'd/m/Y', $phpdate );
+		}else {
+			$phpdate = strtotime( $date1 );
+			$date11 = date( 'd/m/Y', $phpdate );
+
+			$phpdate2 = strtotime( $date2 );
+			$date22 = date( 'd/m/Y', $phpdate2 );
+
+			$dash_date = $date11.' - '.$date22;
+		}
+
+		$data['dn_date1'] = $date1;
+		$data['dn_date2'] = $date2;
+		$data['report_date'] = $dash_date;
+
 		$level = $this->session->userdata('level');
 		if ( $level == 'admin' || $level == 'kapolsek') {
-			$data['suratKeluar'] = $this->m_suratKeluar->get_all();
+			$data['suratKeluar'] = $this->m_suratKeluar->get_all($date1,$date2);
 		}else{
 			$bagian = $this->session->userdata('id_bagian');
-			$data['suratKeluar'] = $this->m_suratKeluar->get_all_bagian($bagian);
+			$data['suratKeluar'] = $this->m_suratKeluar->get_all_bagian($bagian,$date1,$date2);
 		}
 		$this->template->load('template','suratKeluar/v_suratKeluar_list', $data);
 	}
@@ -174,6 +207,24 @@ class SuratKeluar extends CI_Controller {
 			$this->session->set_flashdata('message', 'not-found');
             redirect($_SERVER['HTTP_REFERER']);
         }
+	}
+
+	public function printberkas(){
+		$date1 = $this->uri->segment(3);
+		$date2 = $this->uri->segment(4);
+		$data['date1'] = $date1;
+		$data['date2'] = $date2;
+
+		$level = $this->session->userdata('level');
+		if ( $level == 'admin' || $level == 'kapolsek') {
+			$data['suratKeluar'] = $this->m_suratKeluar->get_all($date1,$date2);
+		}else{
+			$bagian = $this->session->userdata('id_bagian');
+			$data['suratKeluar'] = $this->m_suratKeluar->get_all_bagian($bagian,$date1,$date2);
+		}
+
+		$this->load->view('suratKeluar/v_printberkas',$data);
+		// die;
 	}
 }
 ?>

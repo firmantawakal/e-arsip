@@ -5,10 +5,35 @@
 		max-height: 100%
 	}
 </style>
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin d-print-none">
+    <div>
+    	<h4 class="mb-3 mb-md-0"><?php echo $report_date ?></h4> 
+    </div>
+    <div class="d-flex align-items-center flex-wrap text-nowrap">
+        <form action="<?php echo site_url('suratmasuk') ?>" method="post">
+            <div class="row">
+                <div class="input-group date datepicker dashboard-date btn-icon-text mr-2 mb-2 mb-md-0" >
+                    <span class="input-group-addon bg-transparent"><i data-feather="calendar" class=" text-primary"></i></span>
+                    <input type="text" name="tgl" class="form-control col-lg-12" id="reportrange">
+                </div>
+                <button type="submit" class="btn btn-outline-info btn-icon-text btn-icon-text mr-3 mb-2 mb-md-0">
+                    <i class="btn-icon-prepend" data-feather="check"></i>
+                    View
+				</button>
+		</form>
+			<div class="btn-group pull-right mr-3 mb-2 mb-md-0" role="group" aria-label="Basic example">
+				<a href="<?php echo site_url('suratmasuk/printberkas/'.$dn_date1.'/'.$dn_date2) ?>" target="_blank"><button type="button" class="btn btn-warning btn-icon">
+					<i data-feather="download"></i>
+				</button></a>
+			</div>
+			</div>
+    </div>
+</div>
 <div class="row">
 	<div class="col-md-12 grid-margin stretch-card">
 		<div class="card">
 			<div class="card-body">
+			<center><h4 class="card-title">Surat Masuk</h4></center>
 			<?php if ($this->session->userdata('level')=='admin') { ?>
 				<a role="button" href="<?php echo site_url('suratmasuk/create') ?>" class="btn btn-success">Tambah Surat Masuk</a>
 			<?php } ?>
@@ -38,10 +63,12 @@
 									<td>
 										<!-- <a data-toggle="tooltip" data-placement="top" role="button" href="<?php //echo site_url('suratmasuk/update/' . $data->id_suratmasuk) ?>" title="Edit" class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp; -->
 
-										<?php if ($data->status_disposisi == 0) { ?>
-											<button type="button" data-target="#disposisi<?php echo $data->id_suratmasuk; ?>" data-toggle="modal" class="btn btn-success">
-												<i class="fa fa-arrow-right" aria-hidden="true"></i>
-											</button>
+										<?php if ($data->status_disposisi == 0) {
+													if ($this->session->userdata('level')=='kapolsek') { ?>
+														<button type="button" data-target="#disposisi<?php echo $data->id_suratmasuk; ?>" data-toggle="modal" class="btn btn-success">
+															<i class="fa fa-arrow-right" aria-hidden="true"></i>
+														</button>
+													<?php } ?>
 										<?php
 										}else{ ?>
 											<button type="button" data-target="#viewDisposisi<?php echo $data->id_suratmasuk; ?>" data-toggle="modal" class="btn btn-warning">

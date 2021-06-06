@@ -18,19 +18,23 @@ class M_suratMasuk extends CI_Model {
         return $this->db->get('disposisi')->row();
 	}
 	
-	function get_all()
+	function get_all($d1,$d2)
     {
         $this->db->order_by('id_suratmasuk', 'DESC');
         $this->db->join('jenis', 'jenis.id_jenis = suratmasuk.id_jenis');
+        $this->db->where('DATE(tgl_suratmasuk) >=', $d1);
+        $this->db->where('DATE(tgl_suratmasuk) <=', $d2);
         return $this->db->get($this->table)->result();
 	}
 
-	function get_all_bagian($id)
+	function get_all_bagian($id,$d1,$d2)
     {
         $this->db->where('id_bagian', $id);
         $this->db->order_by('suratmasuk.id_suratmasuk', 'DESC');
         $this->db->join('suratmasuk', 'disposisi.id_suratmasuk = suratmasuk.id_suratmasuk');
         $this->db->join('jenis', 'jenis.id_jenis = suratmasuk.id_jenis');
+        $this->db->where('DATE(tgl_suratmasuk) >=', $d1);
+        $this->db->where('DATE(tgl_suratmasuk) <=', $d2);
         return $this->db->get('disposisi')->result();
 	}
 	
@@ -51,6 +55,13 @@ class M_suratMasuk extends CI_Model {
     {
         $this->db->where('id_suratmasuk', $id);
         $this->db->update('suratmasuk', $data);
+    }
+
+    // update data
+    function update_disposisi_bag($id, $data)
+    {
+        $this->db->where('id_disposisi', $id);
+        $this->db->update('disposisi', $data);
     }
 	
 	// update data

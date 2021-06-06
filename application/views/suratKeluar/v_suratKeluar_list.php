@@ -6,6 +6,30 @@
   max-height: 100%
 }
 </style>
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin d-print-none">
+    <div>
+    	<h4 class="mb-3 mb-md-0"><?php echo $report_date ?></h4> 
+    </div>
+    <div class="d-flex align-items-center flex-wrap text-nowrap">
+        <form action="<?php echo site_url('suratkeluar') ?>" method="post">
+            <div class="row">
+                <div class="input-group date datepicker dashboard-date btn-icon-text mr-2 mb-2 mb-md-0" >
+                    <span class="input-group-addon bg-transparent"><i data-feather="calendar" class=" text-primary"></i></span>
+                    <input type="text" name="tgl" class="form-control col-lg-12" id="reportrange">
+                </div>
+                <button type="submit" class="btn btn-outline-info btn-icon-text btn-icon-text mr-3 mb-2 mb-md-0">
+                    <i class="btn-icon-prepend" data-feather="check"></i>
+                    View
+				</button>
+		</form>
+			<div class="btn-group pull-right mr-3 mb-2 mb-md-0" role="group" aria-label="Basic example">
+				<a href="<?php echo site_url('suratkeluar/printberkas/'.$dn_date1.'/'.$dn_date2) ?>" target="_blank"><button type="button" class="btn btn-warning btn-icon">
+					<i data-feather="download"></i>
+				</button></a>
+			</div>
+			</div>
+    </div>
+</div>
 <div class="row">
 	<div class="col-md-12 grid-margin stretch-card">
 		<div class="card">
